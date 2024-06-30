@@ -2,8 +2,8 @@
 
 set -a; source .env; set +a
 
-# InstallAntlr downloads ANTLR if necessary.
-InstallAntlr() {
+# GetAntlr downloads ANTLR if necessary.
+GetAntlr() {
     if [[ ! -f "$ANTLR_DIR/$ANTLR_JAR" ]]; then
         echo "Downloading ANTLR..."
         mkdir -p "$ANTLR_DIR"
@@ -12,8 +12,8 @@ InstallAntlr() {
     fi
 }
 
-# InstallJava installs Java on Linux or macOS using the appropriate package manager.
-InstallJava() {
+# GetJava installs Java on Linux or macOS using the appropriate package manager.
+GetJava() {
   if ! command -v java &> /dev/null; then
     if [[ "$OSTYPE" == "darwin"* ]]; then
       echo "Checking for Homebrew..."
@@ -35,8 +35,8 @@ InstallJava() {
   fi
 }
 
-# InstallGo installs Go for Linux and macOS operating systems.
-InstallGo() {
+# GetGo installs Go for Linux and macOS operating systems.
+GetGo() {
   if ! command -v go &> /dev/null; then
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
       sudo apt update
@@ -53,18 +53,23 @@ InstallGo() {
   fi
 }
 
-# InstallGolangCILint installs Golang CI Linter for Linux and macOS operating systems.
-InstallGolangCILint() {
+# GetGolangCILint installs Golang CI Linter for Linux and macOS operating systems.
+function GetGolangCILint() {
+  # Check if golangci-lint is installed
   if ! command -v golangci-lint &> /dev/null; then
     echo "golangci-lint not found. Installing golangci-lint..."
     if [[ "$OSTYPE" == "linux-gnu"* ]]; then
-      curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.50.1
+      # Install golangci-lint for Linux
+      curl -sSfL https://raw.githubusercontent.com/golangci/golangci-lint/master/install.sh | sh -s -- -b $(go env GOPATH)/bin v1.59.1
+      # Add GOPATH/bin to the PATH
       export PATH=$PATH:$(go env GOPATH)/bin
       echo 'export PATH=$PATH:$(go env GOPATH)/bin' >> ~/.profile
     elif [[ "$OSTYPE" == "darwin"* ]]; then
+      # Check if Homebrew is installed
       if ! command -v brew &> /dev/null; then
         echo "Homebrew not found. Installing Homebrew..."
         /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+        # Add Homebrew to the PATH
         echo 'eval "$(/opt/homebrew/bin/brew shellenv)"' >> ~/.zprofile
         eval "$(/opt/homebrew/bin/brew shellenv)"
       fi
@@ -73,7 +78,7 @@ InstallGolangCILint() {
   fi
 }
 
-InstallGo
-InstallGolangCILint
-InstallJava
-InstallAntlr
+GetGo
+GetGolangCILint
+GetJava
+GetAntlr
