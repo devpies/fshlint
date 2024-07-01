@@ -27,7 +27,7 @@ test: lint fmt ;@ ## Run Tests
 	@go test ./... -v
 .PHONY: test
 
-build: generate ; @ ## Make Build
+build: ; @ ## Make Build
 	@go build -o fshlint fshlint.go
 .PHONY: build
 
