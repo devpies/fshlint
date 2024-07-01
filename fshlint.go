@@ -131,8 +131,8 @@ Examples:
 }
 
 func main() {
-	help := flag.Bool("help", false, "Show this help message and exit")
-	h := flag.Bool("h", false, "Show this help message and exit")
+	help := flag.Bool("help", false, "Show this help message")
+	h := flag.Bool("h", false, "Show this help message")
 	flag.Parse()
 
 	if *help || *h {
@@ -163,11 +163,16 @@ func main() {
 		customLogger.Fatalf("Error walking the path '%s': %v\n", path, err)
 	}
 
+	exitCode := 0
+
 	for _, file := range files {
 		errors, err := lintFile(file)
 		if err != nil {
 			customLogger.Printf("Error linting file %s: %v\n", file, err)
 			continue
+		}
+		if len(errors) > 0 {
+			exitCode = 1
 		}
 		for _, e := range errors {
 			parts := strings.Split(e, singleSpace)
@@ -183,4 +188,6 @@ func main() {
 			fmt.Print(formattedError)
 		}
 	}
+
+	os.Exit(exitCode)
 }
