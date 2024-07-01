@@ -1,8 +1,8 @@
 # fshlint
 
 `fshlint` is a simple CLI tool that lints FSH (FHIR Shorthand) files without compilation, leveraging the ANTLR language 
-recognizer. Unlike SUSHI, which compiles FSH files into FHIR artifacts, fshlint checks .fsh files for syntax and 
-semantic issues, making it ideal for quick validations in CI pipelines or project Makefiles.
+recognizer. Unlike SUSHI, which compiles FSH files into FHIR artifacts, fshlint checks .fsh files for syntax issues, 
+making it ideal for quick validations in CI pipelines or project Makefiles.
 
 
 ## Installation
@@ -55,20 +55,9 @@ Run `fshlint` in a directory containing FSH files to check for syntax and semant
 ```yaml
 $ fshlint path/to/files
 
-path/to/files/PatientProfile.fsh:3:9: extraneous input '0..0l' expecting {<EOF>, KW_ALIAS, KW_PROFILE, KW_EXTENSION, KW_INSTANCE, KW_INVARIANT, KW_VALUESET, KW_CODESYSTEM, KW_RULESET, KW_MAPPING, KW_LOGICAL, KW_RESOURCE}
-// * name 0..0l
-^
-```
-
-### Linting a Single FSH File
-Lint a specific FSH file by providing its path.
-
-```yaml
-$ fshlint path/to/Patient.fsh
-
-path/to/Patient.fsh:5:15: no viable alternative at input 'Profile'
-Profile: Patient
-^
+path/to/files/PatientProfile.fsh:3:7: extraneous input '0..0l' expecting {<EOF>, KW_ALIAS, KW_PROFILE, KW_EXTENSION, KW_INSTANCE, KW_INVARIANT, KW_VALUESET, KW_CODESYSTEM, KW_RULESET, KW_MAPPING, KW_LOGICAL, KW_RESOURCE}
+* name 0..0l
+       ^
 ```
 
 ## Help
