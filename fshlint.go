@@ -16,6 +16,7 @@ package main
 
 import (
 	"bufio"
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -116,10 +117,27 @@ func formatError(filePath string, line, column int, msg string) string {
 	)
 }
 
+func printHelp() {
+	helpText := `Usage: fshlint [OPTIONS] <path-to-fsh-file-or-directory>
+
+Options:
+  --help, -h    Show this help message
+
+Examples:
+  fshlint ./path/to/files
+  fshlint ./path/to/specific/file.fsh
+`
+	fmt.Println(helpText)
+}
+
 func main() {
-	if len(os.Args) < 2 {
-		fmt.Println("Usage: fshlint <path-to-fsh-file-or-directory>")
-		os.Exit(1)
+	help := flag.Bool("help", false, "Show this help message and exit")
+	h := flag.Bool("h", false, "Show this help message and exit")
+	flag.Parse()
+
+	if *help || *h {
+		printHelp()
+		return
 	}
 
 	path := os.Args[1]
