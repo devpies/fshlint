@@ -1,7 +1,6 @@
 # fshlint
 
-`fshlint` is a simple CLI tool that lints FSH (FHIR Shorthand) files without compilation, leveraging the ANTLR language 
-recognizer. Unlike SUSHI, which compiles FSH files into FHIR artifacts, fshlint checks .fsh files for syntax issues, 
+`fshlint` is a simple CLI tool that lints FSH (FHIR Shorthand) files without compilation 
 making it ideal for quick validations in CI pipelines or project Makefiles.
 
 
